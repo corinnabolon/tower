@@ -5,8 +5,7 @@
   <main>
     <router-view />
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
+  <footer>
   </footer>
 </template>
 
@@ -29,6 +28,15 @@ export default {
 
 :root{
   --main-height: calc(100vh - 32px - 64px);
+  --theme-gray: #191825;
+  --theme-purple: #5800FF;
+  --theme-pink: #E900FF;
+  --theme-yellow: #FFC600;
+}
+
+body {
+  background-color: var(--theme-gray);
+  color: whitesmoke;
 }
 
 
@@ -36,5 +44,13 @@ footer {
   display: grid;
   place-content: center;
   height: 32px;
+}
+
+.theme-purple-bg {
+  background-color: var(--theme-purple);
+}
+
+.theme-pink-bg {
+  background-color: var(--theme-pink);
 }
 </style>

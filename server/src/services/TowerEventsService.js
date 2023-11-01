@@ -21,9 +21,6 @@ class TowerEventsService {
     if (!towerEvent) {
       throw new BadRequest(`${eventId} is not a valid Event ID`)
     }
-    // if (towerEvent.isCanceled) {
-    //   throw new BadRequest(`This event has been canceled, so it cannot be edited.`)
-    // }
     return towerEvent
   }
 
