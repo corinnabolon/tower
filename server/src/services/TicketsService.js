@@ -35,6 +35,7 @@ class TicketsService {
   }
 
   async deleteTicket(ticketId, userId) {
+
     let ticket = await dbContext.Tickets.findById(ticketId)
 
     if (!ticket) {
