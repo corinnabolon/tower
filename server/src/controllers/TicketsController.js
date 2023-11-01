@@ -1,7 +1,6 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { ticketsService } from "../services/TicketsService.js";
-import { logger } from "../utils/Logger.js";
 
 
 export class TicketsController extends BaseController {
@@ -24,5 +23,7 @@ export class TicketsController extends BaseController {
       next(error)
     }
   }
+
+
 
 }

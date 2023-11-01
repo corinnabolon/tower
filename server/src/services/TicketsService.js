@@ -17,6 +17,23 @@ class TicketsService {
     return ticket
   }
 
+  async getMyTowerEventTickets(userId) {
+    let tickets = dbContext.Tickets.find({ accountId: userId })
+      .populate({
+        path: "event",
+        populate: {
+          path: "ticketCount"
+        }
+      })
+    return tickets
+  }
+
+  async getTicketsByEventId(eventId) {
+    let tickets = await dbContext.Tickets.find({ eventId: eventId })
+      .populate("profile", "name picture")
+    return tickets
+  }
+
 }
 
 export const ticketsService = new TicketsService()
