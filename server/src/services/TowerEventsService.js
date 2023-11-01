@@ -6,19 +6,18 @@ class TowerEventsService {
   async createEvent(eventData) {
     const towerEvent = await dbContext.TowerEvents.create(eventData)
     await towerEvent.populate("creator", "name picture")
-    //TODO: add a populate for ticketCount virtual
+    await towerEvent.populate("ticketCount")
     return towerEvent
   }
 
   async getAllEvents() {
-    const towerEvents = await dbContext.TowerEvents.find()
-    //TODO: add a populate for ticketCount
+    const towerEvents = await dbContext.TowerEvents.find().populate("ticketCount")
     return towerEvents
   }
 
   async getEventById(eventId) {
     const towerEvent = await dbContext.TowerEvents.findById(eventId)
-    //TODO: add a populate for ticketCount
+    await towerEvent.populate('ticketCount')
     if (!towerEvent) {
       throw new BadRequest(`${eventId} is not a valid Event ID`)
     }
