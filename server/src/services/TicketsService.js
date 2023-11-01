@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { Forbidden } from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { towerEventsService } from "./TowerEventsService.js"
 
 class TicketsService {
@@ -32,6 +32,22 @@ class TicketsService {
     let tickets = await dbContext.Tickets.find({ eventId: eventId })
       .populate("profile", "name picture")
     return tickets
+  }
+
+  async deleteTicket(ticketId, userId) {
+    let ticket = await dbContext.Tickets.findById(ticketId)
+
+    if (!ticket) {
+      throw new BadRequest(`${ticketId} is not a valid ticket ID.`)
+    }
+
+    if (ticket.accountId.toString() != userId) {
+      throw new Forbidden(`This is not your ticket to delete.`)
+    }
+
+    await ticket.delete()
+
+    return "Ticket Deleted"
   }
 
 }
