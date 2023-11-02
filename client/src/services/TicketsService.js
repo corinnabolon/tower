@@ -14,19 +14,31 @@ class TicketsService {
     AppState.tickets.push(new Ticket(ticket))
     AppState.ticketHolders.push(new TicketHolder(ticket.profile))
     eventsService.getEventById(eventId)
-    logger.log("Ticket:", ticket, "TicketHolder", ticket.profile)
   }
 
   async getTicketHoldersByEventId(eventId) {
     this.clearTicketData()
     const res = await api.get(`api/events/${eventId}/tickets`)
     AppState.tickets = res.data.map((ticketPOJO) => new Ticket(ticketPOJO))
-    logger.log("AppState.tickets", AppState.tickets)
     AppState.tickets.forEach((ticket) => {
       AppState.ticketHolders.push(new TicketHolder(ticket.profile))
     })
-    logger.log("AppStte.ticketHolders", AppState.ticketHolders)
   }
+
+  // checkTickets(eventId) {
+  //   AppState.activeEvent.
+  // }
+
+  // calcMyTickets() {
+  //   if (AppState.account && AppState.tickets.length > 0) {
+  //     logger.log("Comparing in calcMyTickets, ticket[0].accountId", AppState.tickets[0].accountId, "AppState.account.id", AppState.account.id)
+  //     AppState.tickets.forEach((ticket) => {
+  //       if (ticket.accountId == AppState.account.id) {
+  //         AppState.numberOfMyTickets ++
+  //       }
+  //     })
+  //   }
+  // }
 
   clearTicketData() {
     AppState.tickets = []

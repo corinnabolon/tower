@@ -4,7 +4,7 @@
       <div class="col-11 theme-pink-bg rounded d-flex mt-4">
           <button
             @click="changeCategory(type)"
-            class="btn btn-success w-100 mx-3"
+            class="btn btn-success w-100 mx-3 my-2"
             v-for="type in eventTypes"
             :key="type"
           >

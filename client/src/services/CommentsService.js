@@ -9,12 +9,9 @@ class CommentsService {
     const res = await api.get(`api/events/${eventId}/comments`)
     AppState.comments = res.data.map((commentPOJO) => new Comment(commentPOJO))
     AppState.ticketHolders.forEach((ticketHolder) => {
-      logger.log("Looping through ticket holders")
       for (let i = 0; i < AppState.comments.length; i++) {
         if (ticketHolder.id == AppState.comments[i].creatorId) {
-          logger.log("TRUE!!!!!!!!!!")
           AppState.comments[i].isAttending = true
-          logger.log(AppState.comments[i])
         }
       }
     })

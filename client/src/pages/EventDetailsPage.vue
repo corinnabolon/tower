@@ -25,6 +25,9 @@
               <div> 
                 <p>{{ eventRemainingTickets }} tickets left</p>
               </div>
+              <div v-if="haveTicket">
+                <p>You have bought a ticket to this event! Need more?</p>
+              </div>
               <div>
                 <button v-if="!event.isCanceled && eventRemainingTickets > 0 && account.id" @click="buyTicket()" class="btn btn-success mb-2">Grab A Ticket</button>
                 <p v-else-if="event.isCanceled" class="fs-3">This Event Has Been Cancelled</p>
@@ -39,6 +42,9 @@
     <section v-else class="row">
       <p>Loading...</p>
     </section>
+    <!-- <div>
+      Number of tickets {{ numberOfTickets }}
+    </div> -->
     <section v-if="event" class="row justify-content-center">
         <div v-if="event.creatorId == account.id && !event.isCanceled" class="col-10 d-flex justify-content-center">
           <button @click="cancelEvent(event)" class="btn btn-danger mt-5">Cancel Event</button>
@@ -89,7 +95,7 @@ import { AppState } from '../AppState';
 // import { computed, reactive, onMounted } from 'vue';
 import Pop from "../utils/Pop.js";
 import { eventsService } from "../services/EventsService.js";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, onUpdated } from "vue";
 import { ticketsService } from "../services/TicketsService.js"
 import { commentsService } from "../services/CommentsService.js"
 import { logger } from "../utils/Logger.js";
@@ -102,14 +108,15 @@ export default {
       getEventById();
       getTicketHoldersByEventId();
       getCommentsOfEvent();
+      // calcMyTickets();
     })
+
 
   
     async function getEventById() {
       try {
         let eventId = route.params.eventId
         await eventsService.getEventById(eventId)
-        logger.log("Checking IDs", AppState.activeEvent.creatorId, AppState.account.id)
       } catch (error) {
         Pop.error(error)
       }
@@ -135,17 +142,33 @@ export default {
       }
     }
 
+    function checkTickets() {
+      let eventId = route.params.eventId
+      ticketsService.checkTickets(eventId)
+    }
+
+    // function calcMyTickets() {
+    //   ticketsService.calcMyTickets()
+    // }
+
 
   return {
+    // numberOfMyTickets: computed(() => AppState.numberOfMyTickets),
     account: computed(() => AppState.account),
     event: computed(() => AppState.activeEvent),
     eventRemainingTickets: computed(() => AppState.activeEvent.capacity - AppState.activeEvent.ticketCount ),
     ticketHolders: computed(() => AppState.ticketHolders),
     comments: computed(() => AppState.comments),
-    // haveTicket: computed(() => AppState.tickets.find(
-    //   (ticket) => ticket.accountId == AppState.account.id
+    haveTicket: computed(() => AppState.tickets.find(
+      (ticket) => ticket.accountId == AppState.account.id
+    )),
+    // calcOfTickets: computed(() => AppState.tickets.forEach(
+    //   (ticket) => {
+    //     if(ticket.accountId == AppState.account.id) {
+    //       numberOfTickets ++
+    //     }
+    //   }
     // )),
-    //TODO Use haveTicket somewhere?  To render something?  Relates to isAttending boolean on the comment object? (probably not as that's for all comments)
 
     async buyTicket() {
       try {
