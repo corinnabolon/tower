@@ -12,6 +12,7 @@ class TicketsService {
     const res = await api.post("api/tickets", {eventId})
     let ticket = res.data
     AppState.tickets.push(new Ticket(ticket))
+    AppState.myTickets.push(new Ticket(ticket))
     AppState.ticketHolders.push(new TicketHolder(ticket.profile))
     eventsService.getEventById(eventId)
   }

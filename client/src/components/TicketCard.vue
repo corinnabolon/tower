@@ -11,7 +11,7 @@
           <p>{{ ticketProp.event.startDate.toLocaleString() }}</p>
         </div>
         <div>
-          <button @click="deleteTicket(`${ticketProp.id}`)" class="btn btn-danger">Unattend</button>
+          <button @click="deleteTicket(`${ticketProp.id}`)" class="btn btn-danger m-2">Unattend</button>
         </div>
       </div>
       </div>

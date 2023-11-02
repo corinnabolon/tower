@@ -19,17 +19,19 @@
               </div>
             </div>
             <div>
-              <p>{{event.description}}</p>
+              <p>{{ event.description }}</p>
             </div>
             <div class="d-flex justify-content-between">
-              <div> 
+              <div>
                 <p>{{ eventRemainingTickets }} tickets left</p>
               </div>
               <div v-if="haveTicket">
-                <p>You have bought a ticket to this event! Need more?</p>
+                <p v-if="calcOfTickets == 1">You have bought {{ calcOfTickets }} ticket to this event! Need more?</p>
+                <p v-else>You have bought {{ calcOfTickets }} tickets to this event! Need more?</p>
               </div>
               <div>
-                <button v-if="!event.isCanceled && eventRemainingTickets > 0 && account.id" @click="buyTicket()" class="btn btn-success mb-2">Grab A Ticket</button>
+                <button v-if="!event.isCanceled && eventRemainingTickets > 0 && account.id" @click="buyTicket()"
+                  class="btn btn-success mb-2">Grab A Ticket</button>
                 <p v-else-if="event.isCanceled" class="fs-3">This Event Has Been Cancelled</p>
                 <p v-else-if="eventRemainingTickets <= 0">There are no more tickets available for this event</p>
                 <p v-else>Log in to buy a ticket!</p>
@@ -46,20 +48,20 @@
       Number of tickets {{ numberOfTickets }}
     </div> -->
     <section v-if="event" class="row justify-content-center">
-        <div v-if="event.creatorId == account.id && !event.isCanceled" class="col-10 d-flex justify-content-center">
-          <button @click="cancelEvent(event)" class="btn btn-danger mt-5">Cancel Event</button>
-        </div>
+      <div v-if="event.creatorId == account.id && !event.isCanceled" class="col-10 d-flex justify-content-center">
+        <button @click="cancelEvent(event)" class="btn btn-danger mt-5">Cancel Event</button>
+      </div>
     </section>
     <section v-else>
       Loading...
     </section>
-      <section class="row justify-content-center">
+    <section class="row justify-content-center">
       <div class="col-10">
         <p class="fs-4 mt-5">See who is attending:</p>
       </div>
       <div class="col-10 d-flex flex-wrap theme-lightgray-bg rounded">
         <div v-for="ticketHolder in ticketHolders" :key="ticketHolder.id">
-          <TicketHoldersCard :ticketHoldersProp="ticketHolder"/>
+          <TicketHoldersCard :ticketHoldersProp="ticketHolder" />
         </div>
       </div>
     </section>
@@ -70,13 +72,9 @@
         </div>
         <div class="theme-lightgray-bg rounded">
           <div v-if="account">
-            <button
-                    class="btn btn-success m-4"
-                    data-bs-toggle="modal"
-                    data-bs-target="#commentModal"
-                  >
-                    Post Comment
-                  </button>
+            <button class="btn btn-success m-4" data-bs-toggle="modal" data-bs-target="#commentModal">
+              Post Comment
+            </button>
           </div>
           <div v-for="comment in comments" :key="comment.id" class="d-flex my-5 mx-2">
             <CommentCard :commentProp="comment" />
@@ -101,18 +99,19 @@ import { commentsService } from "../services/CommentsService.js"
 import { logger } from "../utils/Logger.js";
 
 export default {
-  setup(){
+  setup() {
     const route = useRoute();
 
     onMounted(() => {
       getEventById();
       getTicketHoldersByEventId();
       getCommentsOfEvent();
+
       // calcMyTickets();
     })
 
 
-  
+
     async function getEventById() {
       try {
         let eventId = route.params.eventId
@@ -142,58 +141,61 @@ export default {
       }
     }
 
-    function checkTickets() {
-      let eventId = route.params.eventId
-      ticketsService.checkTickets(eventId)
-    }
+    // function checkTickets() {
+    //   let eventId = route.params.eventId
+    //   ticketsService.checkTickets(eventId)
+    // }
 
     // function calcMyTickets() {
     //   ticketsService.calcMyTickets()
     // }
 
 
-  return {
-    // numberOfMyTickets: computed(() => AppState.numberOfMyTickets),
-    account: computed(() => AppState.account),
-    event: computed(() => AppState.activeEvent),
-    eventRemainingTickets: computed(() => AppState.activeEvent.capacity - AppState.activeEvent.ticketCount ),
-    ticketHolders: computed(() => AppState.ticketHolders),
-    comments: computed(() => AppState.comments),
-    haveTicket: computed(() => AppState.tickets.find(
-      (ticket) => ticket.accountId == AppState.account.id
-    )),
-    // calcOfTickets: computed(() => AppState.tickets.forEach(
-    //   (ticket) => {
-    //     if(ticket.accountId == AppState.account.id) {
-    //       numberOfTickets ++
-    //     }
-    //   }
-    // )),
-
-    async buyTicket() {
-      try {
-        logger.log("Account before buying ticket:", AppState.account)
-        let eventId = route.params.eventId
-        await ticketsService.buyTicket(eventId)
-        logger.log("Account after buying ticket", AppState.account)
-      } catch (error) {
-        Pop.error(error)
-      }
-    },
-
-    async cancelEvent(event) {
-      try {
-        let wantsToCancel = await Pop.confirm("Are you sure you want to cancel this event?")
-        if (!wantsToCancel) {
-          return
+    return {
+      // numberOfMyTickets: computed(() => AppState.myTickets.length),
+      account: computed(() => AppState.account),
+      event: computed(() => AppState.activeEvent),
+      eventRemainingTickets: computed(() => AppState.activeEvent.capacity - AppState.activeEvent.ticketCount),
+      ticketHolders: computed(() => AppState.ticketHolders),
+      comments: computed(() => AppState.comments),
+      haveTicket: computed(() => AppState.tickets.find(
+        (ticket) => ticket.accountId == AppState.account.id
+      )),
+      calcOfTickets: computed(() => {
+        let count = 0
+        AppState.myTickets.forEach((ticket) => {
+          if (route.params.eventId == ticket.eventId) {
+            count++
+          }
         }
-        let eventId = event.id
-        await eventsService.cancelEvent(eventId)
-        Pop.success("Your event has been cancelled.")        
-      } catch (error) {
-        Pop.error(error)
+        )
+        return count
+      }),
+
+      async buyTicket() {
+        try {
+          logger.log("Account before buying ticket:", AppState.account)
+          let eventId = route.params.eventId
+          await ticketsService.buyTicket(eventId)
+          logger.log("Account after buying ticket", AppState.account)
+        } catch (error) {
+          Pop.error(error)
         }
-    },
+      },
+
+      async cancelEvent(event) {
+        try {
+          let wantsToCancel = await Pop.confirm("Are you sure you want to cancel this event?")
+          if (!wantsToCancel) {
+            return
+          }
+          let eventId = event.id
+          await eventsService.cancelEvent(eventId)
+          Pop.success("Your event has been cancelled.")
+        } catch (error) {
+          Pop.error(error)
+        }
+      },
 
 
     };
@@ -202,6 +204,4 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

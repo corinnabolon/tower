@@ -1,5 +1,5 @@
 <template>
-    <img :src="ticketHoldersProp.picture" alt="Ticket Holder Image" class="rounded-circle">
+    <img :src="ticketHoldersProp.picture" alt="Ticket Holder Image" class="rounded-circle" :title="ticketHoldersProp.name">
 </template>
 
 
