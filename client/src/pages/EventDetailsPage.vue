@@ -38,7 +38,15 @@
     <section v-else class="row">
       <p>Loading...</p>
     </section>
-    <section class="row justify-content-center">
+    <section v-if="event" class="row justify-content-center">
+        <div v-if="event.creatorId == account.id && !event.isCanceled" class="col-10 d-flex justify-content-center">
+          <button @click="cancelEvent(event)" class="btn btn-danger mt-5">Cancel Event</button>
+        </div>
+    </section>
+    <section v-else>
+      Loading...
+    </section>
+      <section class="row justify-content-center">
       <div class="col-10">
         <p class="fs-4 mt-5">See who is attending:</p>
       </div>
@@ -83,6 +91,7 @@ import { eventsService } from "../services/EventsService.js";
 import { computed, onMounted } from "vue";
 import { ticketsService } from "../services/TicketsService.js"
 import { commentsService } from "../services/CommentsService.js"
+import { logger } from "../utils/Logger.js";
 
 export default {
   setup(){
@@ -99,6 +108,7 @@ export default {
       try {
         let eventId = route.params.eventId
         await eventsService.getEventById(eventId)
+        logger.log("Checking IDs", AppState.activeEvent.creatorId, AppState.account.id)
       } catch (error) {
         Pop.error(error)
       }
@@ -131,9 +141,9 @@ export default {
     eventRemainingTickets: computed(() => AppState.activeEvent.capacity - AppState.activeEvent.ticketCount ),
     ticketHolders: computed(() => AppState.ticketHolders),
     comments: computed(() => AppState.comments),
-    haveTicket: computed(() => AppState.tickets.find(
-      (ticket) => ticket.accountId == AppState.account.id
-    )),
+    // haveTicket: computed(() => AppState.tickets.find(
+    //   (ticket) => ticket.accountId == AppState.account.id
+    // )),
     //TODO Use haveTicket somewhere?  To render something?  Relates to isAttending boolean on the comment object? (probably not as that's for all comments)
 
     async buyTicket() {
@@ -143,10 +153,25 @@ export default {
       } catch (error) {
         Pop.error(error)
       }
+    },
 
-    }
-    }
-  }
+    async cancelEvent(event) {
+      try {
+        let wantsToCancel = await Pop.confirm("Are you sure you want to cancel this event?")
+        if (!wantsToCancel) {
+          return
+        }
+        let eventId = event.id
+        await eventsService.cancelEvent(eventId)
+        Pop.success("Your event has been cancelled.")        
+      } catch (error) {
+        Pop.error(error)
+        }
+    },
+
+
+    };
+  },
 };
 </script>
 

@@ -12,8 +12,11 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <!-- <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
+          <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#create-event-off-canvas" aria-controls="create-event-off-canvas">
+  Post an Event
+</button>
+          <!-- <router-link :to="{ name: 'CreateEventOffCanvas' }" class="btn text-success lighten-30 selectable text-uppercase">
+            Post an Event!
           </router-link> -->
         </li>
       </ul>

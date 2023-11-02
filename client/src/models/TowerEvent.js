@@ -2,7 +2,6 @@ export class TowerEvent {
 
   constructor(data) {
     this.id = data._id || data.id
-    this.type = data.type
     this.name = data.name
     this.description = data.description
     this.coverImg = data.coverImg
@@ -10,7 +9,7 @@ export class TowerEvent {
     this.capacity = data.capacity
     this.startDate = new Date(data.startDate) || data.startDate
     this.isCanceled = data.isCanceled || false
-    this.category = data.category
+    this.category = data.type
     this.creatorId = data.creatorId
     this.createdAt = new Date(data.createdAt) || data.createdAt
     this.updatedAt = new Date(data.updatedAt) || data.updatedAt

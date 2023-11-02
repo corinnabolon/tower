@@ -6,12 +6,10 @@
     <div class="d-flex justify-content-between">
       <p class="fs-5 fw-bold mx-2 mb-1">{{ commentProp.creator.name }}</p>
       <p v-if="commentProp.creator.isAttending">bought a ticket!</p>
-      <!-- //TODO: make this work--but first, test it--does buying a ticket change isAttending? -->
+      <!-- //TODO: make this work--but first, test it--does buying a ticket change isAttending?  Also, put margin at the bottom -->
     </div>
-    <p class="mx-2">{{ commentProp.body }}</p>
+    <p class="m-2">{{ commentProp.body }}</p>
   </div>
-
-
 </template>
 
 

@@ -9,7 +9,7 @@
       <div>
         <form @submit.prevent="postComment()">
   <div class="mb-3">
-    <textarea type="text" maxlength="1000" v-model="editable.body" class="form-control ms-4" id="commentBody" aria-describedby="commentBody"></textarea>
+    <textarea type="text" minlength="2" maxlength="1000" v-model="editable.body" class="form-control ms-4" id="commentBody" aria-describedby="commentBody" required></textarea>
   </div>
   <div class="d-flex justify-content-end">
     <button type="submit" class="mt-1 me-5 mb-3 ms-3 btn btn-primary">Submit</button>

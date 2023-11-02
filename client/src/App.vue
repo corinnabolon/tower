@@ -6,6 +6,7 @@
     <router-view />
   </main>
     <PostCommentModal />
+    <CreateEventOffCanvas />
 </template>
 
 <script>

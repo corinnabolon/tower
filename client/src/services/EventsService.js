@@ -19,6 +19,19 @@ class EventsService {
     //Ticket count is how many have been sold?
   }
 
+  async createEvent(eventData) {
+    const res = await api.post("api/events/", eventData)
+    let newEvent = new TowerEvent(res.data)
+    AppState.events.push(newEvent)
+    return newEvent
+  }
+
+  async cancelEvent(eventId) {
+    const res = await api.delete(`api/events/${eventId}`)
+    logger.log("Canceled event?", res.data)
+    AppState.activeEvent = new TowerEvent(res.data)
+  }
+
 }
 
 export const eventsService = new EventsService()
