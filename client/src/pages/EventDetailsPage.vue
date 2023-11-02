@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <section v-if="event" class="row justify-content-center">
       <!-- ////SECTION top box which shows all the event info -->
-      <div class="col-9 theme-pink-bg mt-3 rounded">
+      <div class="col-10 theme-pink-bg mt-3 rounded">
         <section class="row">
           <div class="col-4">
             <img :src="event.coverImg" alt="Event Image" class="container-fluid my-3">
@@ -38,6 +38,38 @@
     <section v-else class="row">
       <p>Loading...</p>
     </section>
+    <section class="row justify-content-center">
+      <div class="col-10">
+        <p class="fs-4 mt-5">See who is attending:</p>
+      </div>
+      <div class="col-10 d-flex flex-wrap theme-lightgray-bg rounded">
+        <div v-for="ticketHolder in ticketHolders" :key="ticketHolder.id">
+          <TicketHoldersCard :ticketHoldersProp="ticketHolder"/>
+        </div>
+      </div>
+    </section>
+    <section class="row justify-content-center mt-5">
+      <div class="col-7">
+        <div>
+          <p class="fs-5">What people are saying:</p>
+        </div>
+        <div class="theme-lightgray-bg rounded">
+          <div v-if="account">
+            <button
+                    class="btn btn-success m-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#commentModal"
+                  >
+                    Post Comment
+                  </button>
+          </div>
+          <div v-for="comment in comments" :key="comment.id" class="d-flex my-5 mx-2">
+            <CommentCard :commentProp="comment" />
+          </div>
+        </div>
+      </div>
+
+    </section>
   </div>
 </template>
 
@@ -50,6 +82,7 @@ import Pop from "../utils/Pop.js";
 import { eventsService } from "../services/EventsService.js";
 import { computed, onMounted } from "vue";
 import { ticketsService } from "../services/TicketsService.js"
+import { commentsService } from "../services/CommentsService.js"
 
 export default {
   setup(){
@@ -57,6 +90,8 @@ export default {
 
     onMounted(() => {
       getEventById();
+      getTicketHoldersByEventId();
+      getCommentsOfEvent();
     })
 
   
@@ -69,13 +104,37 @@ export default {
       }
     }
 
+    //getTicketHolders is like getCollaboratorsOnAlbum
+    async function getTicketHoldersByEventId() {
+      try {
+        let eventId = route.params.eventId
+        await ticketsService.getTicketHoldersByEventId(eventId)
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+
+    //getCommentsOfEvent is like getPicturesByAlbumId
+    async function getCommentsOfEvent() {
+      try {
+        let eventId = route.params.eventId;
+        await commentsService.getCommentsOfEvent(eventId);
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+
+
   return {
+    account: computed(() => AppState.account),
     event: computed(() => AppState.activeEvent),
     eventRemainingTickets: computed(() => AppState.activeEvent.capacity - AppState.activeEvent.ticketCount ),
-    account: computed(() => AppState.account),
+    ticketHolders: computed(() => AppState.ticketHolders),
+    comments: computed(() => AppState.comments),
     haveTicket: computed(() => AppState.tickets.find(
       (ticket) => ticket.accountId == AppState.account.id
     )),
+    //TODO Use haveTicket somewhere?  To render something?  Relates to isAttending boolean on the comment object? (probably not as that's for all comments)
 
     async buyTicket() {
       try {

@@ -5,8 +5,7 @@
   <main>
     <router-view />
   </main>
-  <footer>
-  </footer>
+    <PostCommentModal />
 </template>
 
 <script>
@@ -29,6 +28,7 @@ export default {
 :root{
   --main-height: calc(100vh - 32px - 64px);
   --theme-gray: #191825;
+  --theme-lightgray: #5f4268;
   --theme-purple: #5800FF;
   --theme-pink: #E900FF;
   --theme-yellow: #FFC600;
@@ -52,5 +52,9 @@ footer {
 
 .theme-pink-bg {
   background-color: var(--theme-pink);
+}
+
+.theme-lightgray-bg {
+  background-color: var(--theme-lightgray);
 }
 </style>
