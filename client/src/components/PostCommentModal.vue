@@ -29,6 +29,8 @@ import Pop from "../utils/Pop.js";
 import { useRoute } from "vue-router";
 import { commentsService } from "../services/CommentsService.js";
 import { Modal } from "bootstrap";
+import { accountService } from "../services/AccountService.js";
+import { logger } from "../utils/Logger.js";
 
 export default {
   setup(){

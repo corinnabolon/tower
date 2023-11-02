@@ -14,6 +14,7 @@ class TicketsService {
     AppState.tickets.push(new Ticket(ticket))
     AppState.ticketHolders.push(new TicketHolder(ticket.profile))
     eventsService.getEventById(eventId)
+    logger.log("Ticket:", ticket, "TicketHolder", ticket.profile)
   }
 
   async getTicketHoldersByEventId(eventId) {

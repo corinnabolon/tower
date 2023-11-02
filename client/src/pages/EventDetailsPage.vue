@@ -26,9 +26,10 @@
                 <p>{{ eventRemainingTickets }} tickets left</p>
               </div>
               <div>
-                <button v-if="!event.isCanceled && eventRemainingTickets > 0" @click="buyTicket()" class="btn btn-success mb-2">Grab A Ticket</button>
+                <button v-if="!event.isCanceled && eventRemainingTickets > 0 && account.id" @click="buyTicket()" class="btn btn-success mb-2">Grab A Ticket</button>
                 <p v-else-if="event.isCanceled" class="fs-3">This Event Has Been Cancelled</p>
-                <p v-else>There are no more tickets available for this event</p>
+                <p v-else-if="eventRemainingTickets <= 0">There are no more tickets available for this event</p>
+                <p v-else>Log in to buy a ticket!</p>
               </div>
             </div>
           </div>
@@ -148,8 +149,10 @@ export default {
 
     async buyTicket() {
       try {
+        logger.log("Account before buying ticket:", AppState.account)
         let eventId = route.params.eventId
         await ticketsService.buyTicket(eventId)
+        logger.log("Account after buying ticket", AppState.account)
       } catch (error) {
         Pop.error(error)
       }

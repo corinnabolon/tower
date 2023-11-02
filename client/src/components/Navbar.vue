@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#create-event-off-canvas" aria-controls="create-event-off-canvas">
+          <button v-if="account.id" class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#create-event-off-canvas" aria-controls="create-event-off-canvas">
   Post an Event
 </button>
           <!-- <router-link :to="{ name: 'CreateEventOffCanvas' }" class="btn text-success lighten-30 selectable text-uppercase">
@@ -28,9 +28,14 @@
 
 <script>
 import Login from './Login.vue';
+import { AppState } from '../AppState';
+import { computed } from 'vue';
+
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(() => AppState.account)
+    }
   },
   components: { Login }
 }
