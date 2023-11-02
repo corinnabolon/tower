@@ -9,7 +9,7 @@ export class TowerEvent {
     this.capacity = data.capacity
     this.startDate = new Date(data.startDate) || data.startDate
     this.isCanceled = data.isCanceled || false
-    this.category = data.type
+    this.type = data.type
     this.creatorId = data.creatorId
     this.createdAt = new Date(data.createdAt) || data.createdAt
     this.updatedAt = new Date(data.updatedAt) || data.updatedAt

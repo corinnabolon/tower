@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-between">
               <div>
                 <p class="fs-1 mb-0">{{ event.name }}</p>
-                <p>{{ event.category }}</p>
+                <p>{{ event.type }}</p>
               </div>
               <div>
                 <p>{{ event.startDate.toLocaleString() }}</p>

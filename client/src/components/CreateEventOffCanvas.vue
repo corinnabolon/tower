@@ -12,19 +12,19 @@
   <div class="row justify-content-evenly">
     <div class="col-4">
       <div>      
-      <label for="event-category" class="form-label">What category does your event fall into?</label>
+      <label for="event-type" class="form-label">What category does your event fall into?</label>
                 <select
-                  v-model="editable.category"
+                  v-model="editable.type"
                   class="form-select"
-                  name="event-category"
+                  name="event-type"
                   required
                 >
                   <option
-                    :value="category"
-                    v-for="category in categories"
-                    :key="category"
+                    :value="type"
+                    v-for="type in eventTypes"
+                    :key="type"
                   >
-                    {{ category }}
+                    {{ type }}
                   </option>
                 </select>
     </div>
@@ -85,17 +85,17 @@ export default {
   components: { VueDatePicker },
   setup(){
     let editable = ref({});
-    let categories = ['Concert', 'Convention', 'Sport', 'Digital'];
+    let eventTypes = ['Concert', 'Convention', 'Sport', 'Digital'];
     let router = useRouter();
 
   return { 
-    categories,
+    eventTypes,
     editable,
 
 
     async createEvent() {
       try {
-          editable.value.category = editable.value.category.toLowerCase()
+          editable.value.type = editable.value.type.toLowerCase()
           let eventData = editable.value;
           logger.log("Event data", eventData)
           let event = await eventsService.createEvent(eventData)
