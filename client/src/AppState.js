@@ -15,6 +15,7 @@ export const AppState = reactive({
   ticketHolders: [],
   /** @type {import('./models/Comment.js').Comment[]} */
   comments: [],
+    /** @type {import('./models/Ticket.js').Ticket[]} */
+  myTickets: [],
 
-  numberOfMyTickets: 0
 })

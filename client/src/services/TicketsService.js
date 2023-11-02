@@ -25,20 +25,15 @@ class TicketsService {
     })
   }
 
-  // checkTickets(eventId) {
-  //   AppState.activeEvent.
-  // }
-
-  // calcMyTickets() {
-  //   if (AppState.account && AppState.tickets.length > 0) {
-  //     logger.log("Comparing in calcMyTickets, ticket[0].accountId", AppState.tickets[0].accountId, "AppState.account.id", AppState.account.id)
-  //     AppState.tickets.forEach((ticket) => {
-  //       if (ticket.accountId == AppState.account.id) {
-  //         AppState.numberOfMyTickets ++
-  //       }
-  //     })
-  //   }
-  // }
+  async deleteTicket(ticketId) {
+    logger.log("ticket ID", ticketId)
+    const res = await api.delete(`api/tickets/${ticketId}`)
+    logger.log("res.data", res.data)
+    logger.log(AppState.myTickets)
+    let ticketIndex = AppState.myTickets.findIndex(ticket => ticket.id == ticketId)
+    logger.log("Ticket index", ticketIndex)
+    AppState.myTickets.splice(ticketIndex, 1)
+  }
 
   clearTicketData() {
     AppState.tickets = []
