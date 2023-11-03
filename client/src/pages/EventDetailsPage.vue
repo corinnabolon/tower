@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <section v-if="event" class="row justify-content-center">
       <!-- ////SECTION top box which shows all the event info -->
-      <div class="col-10 theme-pink-bg mt-3 rounded">
+      <div class="col-10 theme-pink-bg mt-3 rounded position-relative">
         <section class="row">
           <div class="col-4">
             <img :src="event.coverImg" alt="Event Image" class="container-fluid my-3">
@@ -23,11 +23,11 @@
             </div>
             <div class="d-flex justify-content-between">
               <div>
-                <p>{{ eventRemainingTickets }} tickets left</p>
+                <p v-if="!event.isCanceled">{{ eventRemainingTickets }} tickets left</p>
               </div>
               <div v-if="haveTicket">
-                <p v-if="calcOfTickets == 1">You have bought {{ calcOfTickets }} ticket to this event! Need more?</p>
-                <p v-else>You have bought {{ calcOfTickets }} tickets to this event! Need more?</p>
+                <p v-if="calcOfTickets == 1">You have bought {{ calcOfTickets }} ticket to this event!</p>
+                <p v-else>You have bought {{ calcOfTickets }} tickets to this event!</p>
               </div>
               <div>
                 <button v-if="!event.isCanceled && eventRemainingTickets > 0 && account.id" @click="buyTicket()"
@@ -39,6 +39,15 @@
             </div>
           </div>
         </section>
+      </div>
+      <div v-if="event.isCanceled" class="position-absolute">
+        <div>
+          <div class="canceled position-relative">
+          </div>
+        </div>
+      </div>
+      <div v-if="event.isCanceled" class="canceled-words position-absolute">
+        <p>Cancelled!</p>
       </div>
     </section>
     <section v-else class="row">
@@ -81,7 +90,6 @@
           </div>
         </div>
       </div>
-
     </section>
   </div>
 </template>
@@ -106,8 +114,6 @@ export default {
       getEventById();
       getTicketHoldersByEventId();
       getCommentsOfEvent();
-
-      // calcMyTickets();
     })
 
 
@@ -121,7 +127,6 @@ export default {
       }
     }
 
-    //getTicketHolders is like getCollaboratorsOnAlbum
     async function getTicketHoldersByEventId() {
       try {
         let eventId = route.params.eventId
@@ -131,7 +136,6 @@ export default {
       }
     }
 
-    //getCommentsOfEvent is like getPicturesByAlbumId
     async function getCommentsOfEvent() {
       try {
         let eventId = route.params.eventId;
@@ -141,18 +145,8 @@ export default {
       }
     }
 
-    // function checkTickets() {
-    //   let eventId = route.params.eventId
-    //   ticketsService.checkTickets(eventId)
-    // }
-
-    // function calcMyTickets() {
-    //   ticketsService.calcMyTickets()
-    // }
-
 
     return {
-      // numberOfMyTickets: computed(() => AppState.myTickets.length),
       account: computed(() => AppState.account),
       event: computed(() => AppState.activeEvent),
       eventRemainingTickets: computed(() => AppState.activeEvent.capacity - AppState.activeEvent.ticketCount),
@@ -204,4 +198,21 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.canceled {
+  height: 20vh;
+  width: 50vw;
+  background-color: red;
+  transform: rotate(170deg);
+  margin-top: 6%;
+  margin-left: 25%;
+}
+
+.canceled-words {
+  color: white;
+  font-size: 36pt;
+  transform: rotate(-10deg);
+  // margin-bottom: 30%;
+  margin-left: 80%;
+}
+</style>
