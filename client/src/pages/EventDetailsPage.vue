@@ -48,8 +48,17 @@
           </div>
         </div>
       </div>
+      <div v-else-if="(event.capacity - event.ticketCount) <= 0" class="position-absolute">
+        <div>
+          <div class="sold-out position-relative">
+          </div>
+        </div>
+      </div>
       <div v-if="event.isCanceled" class="canceled-words position-absolute">
         <p>Cancelled!</p>
+      </div>
+      <div v-else-if="(event.capacity - event.ticketCount) <= 0" class="sold-out-words position-absolute">
+        <p>Sold Out!</p>
       </div>
     </section>
     <section v-else class="row">
@@ -218,6 +227,22 @@ img {
   color: white;
   font-size: 36pt;
   transform: rotate(-10deg);
+  margin-left: 80%;
+}
+
+.sold-out {
+  height: 20vh;
+  width: 50vw;
+  background-color: blue;
+  transform: rotate(170deg);
+  margin-top: 6%;
+  margin-left: 25%;
+}
+
+.sold-out-words {
+  color: white;
+  font-size: 36pt;
+  transform: rotate(-10deg);
   // margin-bottom: 30%;
   margin-left: 80%;
 }
@@ -234,6 +259,23 @@ img {
   }
 
   .canceled-words {
+    color: white;
+    font-size: 36pt;
+    transform: rotate(-10deg);
+    margin-left: 20%;
+    margin-top: 90%;
+  }
+
+  .sold-out {
+    height: 20vh;
+    width: 80vw;
+    background-color: blue;
+    transform: rotate(170deg);
+    margin-top: 90%;
+    margin-left: 5%;
+  }
+
+  .sold-out-words {
     color: white;
     font-size: 36pt;
     transform: rotate(-10deg);
