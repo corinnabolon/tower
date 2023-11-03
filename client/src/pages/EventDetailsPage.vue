@@ -4,11 +4,11 @@
       <!-- ////SECTION top box which shows all the event info -->
       <div class="col-10 theme-pink-bg mt-4 rounded position-relative">
         <section class="row">
-          <div class="col-4">
+          <div class="col-12 col-md-4">
             <img :src="event.coverImg" alt="Event Image" class="container-fluid my-3">
           </div>
-          <div class="col-8">
-            <div class="d-flex justify-content-between">
+          <div class="col-12 col-md-8">
+            <div class="d-md-flex justify-content-between">
               <div>
                 <p class="fs-1 mb-0">{{ event.name }}</p>
                 <p>Category: {{ event.type }}</p>
@@ -75,7 +75,7 @@
       </div>
     </section>
     <section class="row justify-content-center mt-5">
-      <div class="col-7">
+      <div class="col-12 col-md-7">
         <div>
           <p class="fs-4">What people are saying:</p>
         </div>
@@ -107,7 +107,6 @@ import { eventsService } from "../services/EventsService.js";
 import { computed, onMounted, onUpdated } from "vue";
 import { ticketsService } from "../services/TicketsService.js"
 import { commentsService } from "../services/CommentsService.js"
-import { logger } from "../utils/Logger.js";
 
 export default {
   setup() {
@@ -171,10 +170,8 @@ export default {
 
       async buyTicket() {
         try {
-          logger.log("Account before buying ticket:", AppState.account)
           let eventId = route.params.eventId
           await ticketsService.buyTicket(eventId)
-          logger.log("Account after buying ticket", AppState.account)
         } catch (error) {
           Pop.error(error)
         }
@@ -223,5 +220,26 @@ img {
   transform: rotate(-10deg);
   // margin-bottom: 30%;
   margin-left: 80%;
+}
+
+@media (max-width: 768px) {
+
+  .canceled {
+    height: 20vh;
+    width: 80vw;
+    background-color: red;
+    transform: rotate(170deg);
+    margin-top: 90%;
+    margin-left: 5%;
+  }
+
+  .canceled-words {
+    color: white;
+    font-size: 36pt;
+    transform: rotate(-10deg);
+    margin-left: 20%;
+    margin-top: 90%;
+  }
+
 }
 </style>

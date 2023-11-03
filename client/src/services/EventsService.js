@@ -15,8 +15,6 @@ class EventsService {
     AppState.activeEvent = null;
     const res = await api.get(`api/events/${eventId}`);
     AppState.activeEvent = new TowerEvent(res.data)
-    logger.log(AppState.activeEvent)
-    //Ticket count is how many have been sold?
   }
 
   async createEvent(eventData) {
@@ -28,7 +26,6 @@ class EventsService {
 
   async cancelEvent(eventId) {
     const res = await api.delete(`api/events/${eventId}`)
-    logger.log("Canceled event?", res.data)
     AppState.activeEvent = new TowerEvent(res.data)
   }
 

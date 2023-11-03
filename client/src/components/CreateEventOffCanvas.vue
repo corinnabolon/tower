@@ -11,7 +11,7 @@
           <div>
             <form @submit.prevent="createEvent()">
               <div class="row justify-content-evenly">
-                <div class="col-4">
+                <div class="col-10 col-md-4">
                   <div>
                     <label for="event-type" class="form-label">What category does your event fall into?</label>
                     <select v-model="editable.type" class="form-select" name="event-type" required>
@@ -41,7 +41,7 @@
                       required>
                   </div>
                 </div>
-                <div class="col-8">
+                <div class="col-10 col-md-8">
                   <div class="mb-2">
                     <label for="img-url" class="form-label">Image URL for the Event:</label>
                     <input v-model="editable.coverImg" type="text" class="form-control" id="img-url" maxlength="300"
@@ -74,7 +74,6 @@ import { computed, reactive, onMounted, ref } from 'vue';
 import Pop from "../utils/Pop.js";
 import { Offcanvas } from "bootstrap";
 import { eventsService } from "../services/EventsService.js"
-import { logger } from "../utils/Logger.js";
 import { useRouter } from "vue-router";
 import { accountService } from "../services/AccountService.js";
 
@@ -95,9 +94,7 @@ export default {
         try {
           editable.value.type = editable.value.type.toLowerCase()
           let eventData = editable.value;
-          logger.log("Event data", eventData)
           let event = await eventsService.createEvent(eventData)
-          logger.log("Created event", event)
           Pop.success("Event created!")
           editable.value = {};
           Offcanvas.getOrCreateInstance("#create-event-off-canvas").hide();

@@ -17,9 +17,7 @@ class AccountService {
 
   async getTicketsByAccountId() {
     const res = await api.get("account/tickets")
-    logger.log("Got my tickets", res.data)
     AppState.myTickets = res.data.map((ticketPOJO) => new Ticket(ticketPOJO))
-    logger.log(AppState.myTickets)
 }
 
 

@@ -2,14 +2,13 @@
   <div class="container-fluid">
     <section class="row justify-content-center">
       <p class="fs-3 mb-0 mt-4 text-center">Select a category of event to browse:</p>
-      <div class="col-11 theme-pink-bg rounded d-flex mt-4 mb-3">
-        <button @click="changeCategory(type)" class="btn btn-success w-100 mx-3 my-2" v-for="type in eventTypes"
+      <div class="col-12 col-md-11 theme-pink-bg d-md-flex rounded mt-4 mb-3">
+        <button @click="changeCategory(type)" class="btn btn-success w-100 mx-md-3 my-2" v-for="type in eventTypes"
           :key="type">
           {{ type }}
         </button>
-
       </div>
-      <div v-for="event in events" :key="event.id" class="col-3 my-4">
+      <div v-for="event in events" :key="event.id" class="col-6 col-md-3 my-4">
         <EventCard :eventProp="event" />
       </div>
     </section>
@@ -21,7 +20,6 @@ import { computed, onMounted, ref } from "vue";
 import Pop from "../utils/Pop.js";
 import { eventsService } from "../services/EventsService.js"
 import { AppState } from "../AppState.js";
-import { logger } from "../utils/Logger.js";
 
 export default {
   setup() {
@@ -54,7 +52,6 @@ export default {
       }),
 
       changeCategory(type) {
-        logger.log(type);
         filteredType.value = type;
       },
 
