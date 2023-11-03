@@ -6,15 +6,14 @@
     <div class="row">
       <div class="col-12 d-flex justify-content-between">
         <p class="fs-5 fw-bold mx-2 mb-1">{{ commentProp.creator.name }}</p>
-        <p v-if="commentProp.isAttending" class="me-2">bought a ticket!</p>
-        <!-- //TODO: make this work--but first, test it--does buying a ticket change isAttending?  Also, put margin at the bottom -->
+        <p v-if="commentProp.isAttending" class="p-1 m-1 mb-2 border rounded">bought a ticket!</p>
       </div>
       <div class="col-9">
         <p class="m-2">{{ commentProp.body }}</p>
       </div>
       <div v-if="account" class="col-1">
         <div v-if="account.id == commentProp.creatorId">
-          <p @click="deleteComment(`${commentProp.id}`)" class="btn btn-danger" title="Delete your comment"><i
+          <p @click="deleteComment(`${commentProp.id}`)" class="btn btn-theme-yellow" title="Delete your comment"><i
               class="mdi mdi-delete"></i>
           </p>
         </div>

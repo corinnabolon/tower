@@ -2,11 +2,11 @@
   <section class="row">
     <div v-if="ticketProp.event.isCanceled == false" class="col-12 my-3 theme-lightgray-bg d-flex">
       <div class="col-4">
-        <img :src="ticketProp.event.coverImg" alt="Event Image" class="container-fluid">
+        <img :src="ticketProp.event.coverImg" alt="Event Image" class="container-fluid event-img rounded m-2">
       </div>
       <div class="col-7">
-        <div>
-          <p>{{ ticketProp.event.name }}</p>
+        <div class="m-3">
+          <p class="fs-4">{{ ticketProp.event.name }}</p>
           <p>{{ ticketProp.event.location }}</p>
           <p>{{ ticketProp.event.startDate.toLocaleString() }}</p>
         </div>
@@ -14,7 +14,7 @@
           <button @click="deleteTicket(`${ticketProp.id}`)" class="btn btn-danger m-2">Unattend</button>
         </div>
       </div>
-      </div>
+    </div>
   </section>
 </template>
 
@@ -30,17 +30,17 @@ import { logger } from "../utils/Logger.js";
 export default {
   props: { ticketProp: { type: Ticket, required: true } },
 
-  setup(){
-  return {
-    account: computed(() => AppState.account),
+  setup() {
+    return {
+      account: computed(() => AppState.account),
 
-    async deleteTicket(ticketId) {
-      try {
-        await ticketsService.deleteTicket(ticketId)
-      } catch (error) {
-        Pop.error(error)
+      async deleteTicket(ticketId) {
+        try {
+          await ticketsService.deleteTicket(ticketId)
+        } catch (error) {
+          Pop.error(error)
+        }
       }
-    }
 
     }
   }
@@ -49,5 +49,10 @@ export default {
 
 
 <style lang="scss" scoped>
-
+.event-img {
+  max-height: 60vh;
+  max-width: 70vw;
+  object-fit: cover;
+  object-position: center;
+}
 </style>

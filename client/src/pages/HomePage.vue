@@ -1,18 +1,15 @@
 <template>
   <div class="container-fluid">
     <section class="row justify-content-center">
-      <div class="col-11 theme-pink-bg rounded d-flex mt-4">
-          <button
-            @click="changeCategory(type)"
-            class="btn btn-success w-100 mx-3 my-2"
-            v-for="type in eventTypes"
-            :key="type"
-          >
-            {{ type }}
-          </button>
+      <p class="fs-3 mb-0 mt-4 text-center">Select a category of event to browse:</p>
+      <div class="col-11 theme-pink-bg rounded d-flex mt-4 mb-3">
+        <button @click="changeCategory(type)" class="btn btn-success w-100 mx-3 my-2" v-for="type in eventTypes"
+          :key="type">
+          {{ type }}
+        </button>
 
       </div>
-      <div v-for="event in events" :key="event.id" class="col-3 mt-3">
+      <div v-for="event in events" :key="event.id" class="col-3 my-4">
         <EventCard :eventProp="event" />
       </div>
     </section>
@@ -27,7 +24,7 @@ import { AppState } from "../AppState.js";
 import { logger } from "../utils/Logger.js";
 
 export default {
-  setup(){
+  setup() {
     let eventTypes = ['All', 'Concert', 'Convention', 'Sport', 'Digital'];
     let filteredType = ref("")
 
@@ -42,11 +39,11 @@ export default {
         Pop.error(error)
       }
     }
-    
-  return {
-    eventTypes,
-    filteredType,
-    events: computed(() => {
+
+    return {
+      eventTypes,
+      filteredType,
+      events: computed(() => {
         if (filteredType.value && filteredType.value != "All") {
           return AppState.events.filter(
             (event) => event.type == filteredType.value.toLocaleLowerCase()
@@ -66,6 +63,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
