@@ -1,23 +1,23 @@
 <template>
   <section class="row">
-    <div v-if="ticketProp.event.isCanceled == false" class="col-12 my-1 theme-lightgray-bg d-flex position-relative">
+    <div v-if="ticketProp.event.isCanceled == false" class="col-12 my-3 theme-lightgray-bg d-flex rounded">
       <router-link :to="{ name: 'Event', params: { eventId: ticketProp.event.id } }">
         <div class="col-4">
-          <img :src="ticketProp.event.coverImg" alt="Event Image" class="event-img rounded m-1">
+          <img :src="ticketProp.event.coverImg" alt="Event Image" class="event-img rounded m-3">
         </div>
       </router-link>
       <div class="col-7">
-        <div class="m-1 me-3">
+        <div class="m-2 me-5">
           <p class="fs-5">{{ ticketProp.event.name }}</p>
           <p>{{ ticketProp.event.location }}</p>
           <p>{{ ticketProp.event.startDate.toLocaleString() }}</p>
+          <!-- <p>{{ ticketProp.event.startTime.toLocaleTimeString() }}</p> -->
         </div>
         <div>
           <button @click="deleteTicket(`${ticketProp.id}`)" class="btn btn-danger m-2">Unattend</button>
         </div>
       </div>
     </div>
-    <div class="col-1 theme-gray-bg circle position-absolute"></div>
   </section>
 </template>
 
@@ -57,14 +57,5 @@ export default {
   max-width: 60vw;
   object-fit: cover;
   object-position: center;
-}
-
-.circle {
-  border-radius: 50%;
-  height: 58vh;
-  width: 20vw;
-  // transform: rotate(170deg);
-  margin-top: -4%;
-  margin-left: 39%;
 }
 </style>

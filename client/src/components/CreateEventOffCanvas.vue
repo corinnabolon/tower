@@ -35,6 +35,11 @@
                     <input v-model="editable.startDate" title="date picker" class="form-control" type="date"
                       min="1995-06-16" name="date-picker" id="date-picker">
                   </div>
+                  // <div class="mb-2">
+                    // <label class="control-label" for="event-time">Time</label>
+                    // <input v-model="editable.startTime" title="time picker" class="form-control" type="time" //
+                      min="1995-06-16" name="time-picker" id="time-picker">
+                    // </div>
                   <div class="mb-2">
                     <label for="event-capacity" class="form-label">Event Capacity:</label>
                     <input v-model="editable.capacity" type="number" class="form-control" id="event-capacity" max="99999"

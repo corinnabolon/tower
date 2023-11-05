@@ -29,6 +29,18 @@ class EventsService {
     AppState.activeEvent = new TowerEvent(res.data)
   }
 
+  async getMyEvents() {
+    const res = await api.get("api/events")
+    let allEvents = res.data.map((eventPOJO) => new TowerEvent(eventPOJO))
+    logger.log(allEvents)
+    allEvents.forEach((event) => {
+      if (event.creatorId == AppState.account.id) {
+        AppState.events.push(event)
+      }
+    })
+    logger.log(AppState.events)
+  }
+
 }
 
 export const eventsService = new EventsService()
