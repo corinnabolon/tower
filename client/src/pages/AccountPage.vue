@@ -1,10 +1,12 @@
 <template>
-  <div class="container-fluid">
+  <div class="container">
     <section class="row">
-      <div class="about text-center">
-        <h1>Welcome {{ account.name }}</h1>
-        <img class="rounded" :src="account.picture" alt="" />
-        <p>{{ account.email }}</p>
+      <div class="col-12">
+        <div class="about text-center">
+          <h1>Welcome {{ account.name }}</h1>
+          <img class="rounded" :src="account.picture" alt="" />
+          <p>{{ account.email }}</p>
+        </div>
       </div>
       <div v-if="myTickets" class="col-12 d-flex flex-column align-items-center">
         <p class="fs-1 text-center mt-5 mb-0 pb-0">Your Tickets:</p>

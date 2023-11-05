@@ -54,6 +54,10 @@ footer {
   font-weight: bold;
 }
 
+.theme-gray-bg {
+  background-color: var(--theme-gray);
+}
+
 .theme-purple-bg {
   background-color: var(--theme-purple);
 }

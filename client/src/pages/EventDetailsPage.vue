@@ -88,14 +88,17 @@
         <div>
           <p class="fs-4">What people are saying:</p>
         </div>
-        <div class="theme-lightgray-bg rounded mb-3">
-          <div v-if="account.id">
+        <div v-if="event" class="theme-lightgray-bg rounded mb-3">
+          <div v-if="account.id && !event.isCanceled">
             <button class="btn btn-success m-4" data-bs-toggle="modal" data-bs-target="#commentModal">
               Post Comment
             </button>
           </div>
-          <div v-else>
+          <div v-else-if="!account.id && !event.isCanceled">
             <p class="fs-5 text-center mt-4 pt-4">Log in to post a comment!</p>
+          </div>
+          <div v-else>
+            <p class="fs-5 text-center mt-4 pt-4">Comments are disabled for cancelled events.</p>
           </div>
           <div v-for="comment in comments" :key="comment.id" class="d-flex my-5 mx-2">
             <CommentCard :commentProp="comment" />
