@@ -8,7 +8,7 @@ export class TowerEvent {
     this.location = data.location
     this.capacity = data.capacity
     this.startDate = new Date(data.startDate) || data.startDate
-    this.startTime = new Date(data.startTime) || data.startTime
+    // this.startTime = new Date(data.startTime) || data.startTime
     this.isCanceled = data.isCanceled || false
     this.type = data.type
     this.creatorId = data.creatorId
